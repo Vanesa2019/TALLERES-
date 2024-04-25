@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <string.h>
+
+typedef struct {
+    char nombre[10];
+    char paradas[50][50];
+    int num_paradas;
+    int festivos; // 1 SI LA RUTA FUNCIONA DÍAS FESTIVOS, 0 SI NO
+} RutaBus;
+
+int buscar_ruta(RutaBus rutas[], int num_rutas, char nombre[]) {
+    for (int i = 0; i < num_rutas; i++) {
+        if (strcmp(rutas[i].nombre, nombre) == 0) {
+            return i;
+        }
+    }
+    return -1; // NO SE ENCONTRÓ LA RUTA
+}
+
+int main() {
+    RutaBus rutas[] = {
+        {"G43", {"Portal Eldorado", "Modelia", "Normandía", "El Tiempo - Cámara de Comercio", "Salitre - El Greco", "Gobernación", "Quinta Paredes", "Corferias", "CAD", "Ricaurte (NQS)", "General Santander", "Venecia", "La Despensa", "León XIII", "Terreros Hospital C.V.", "San Mateo - C.C. Unisur"}, 16, 1},
+        {"J23", {"Portal Américas", "Patio Bonito", "Banderas", "Av. Américas - Av. Boyacá", "Pradera", "Puente Aranda", "Ricaurte (CL 13)", "San Facon - KR. 22", "Av. Jiménez (CL. 13)", "Museo del Oro", "Las Aguas - Centro Colombo Americano"}, 11, 1},
+        {"C15", {"Portal del Tunal", "Parque", "Calle 40 Sur", "Olaya", "Nariño", "Tercer Milenio", "AV. Jiménez (AV. Caracas)", "Calle 19", "Calle 22", "Calle 45 - American School Way", "Marly", "Calle 57", "Est. Calle 76 - San Felipe", "Escuela Militar", "Rionegro", "Puentelargo", "Humedal Córdoba", "Niza - Calle 127", "Gratamira", "Suba - TV. 91", "Portal Suba"}, 19, 1},
+        {"M51", {"Portal Américas", "Biblioteca Tintal", "Banderas", "Mandalay", "Av. Américas - Av. Boyacá", "Marsella", "Pradera", "Distrito Grafiti", "Ricaurte (CL 13)", "Las Nieves", "San Diego", "Museo Nacional"}, 12, 0},
+        {"J73", {"Portal Suba", "Suba - TV. 91", "Niza - Calle 127", "Suba - Calle 100", "Ciudad Universitaria - Lotería de Bogotá", "Universidades"}, 7, 0},
+        {"D21", {"Portal del Tunal", "Santa Lucía", "Calle 40 sur", "Fucha", "Guatoque - Veraguas", "Ricaurte (NQS)", "Campín - Universidad Antonio Nariño", "Movistar Arena", "7 de Agosto", "Avenida 68", "Minuto de Dios", "Granja - Carrera 77", "Avenida Cali", "Carrera 90", "Portal 80"}, 15,0}
+        {"2", {"Portal 20 de Julio", "Country Sur", "AV. 1° de Mayo", "Ciudad Jardín - UAN", "Policarpa", "San Bernardo", "Bicentenario", "San Victorino - Neos Centro", "Las Nieves", "San Diego", "Museo Nacional"}, 11, 1}
+        {"K43", {"San Mateo - C.C. Unisur", "Terreros - Hospital C.V", "León XIII", "La Despensa", "Venecia", "General Santander", "Ricaurte (NQS)", "CAD", "Corferias", "Quinta Paredes", "Gobernación", "El Tiempo - Cámara de Comercio de Bogotá", "Normandía", "Modelia", "Portal el Dorado"}, 15,1}
+
+    };
+    int num_rutas = sizeof(rutas) / sizeof(RutaBus);
+
+    int opcion;
+    char ruta[10];
+
+    do {
+        // Menú de opciones
+        printf("\nMenú:\n");
+        printf("1. Digite la ruta de bus sobre la que desea conocer las paradas\n");
+        printf("2. Conocer rutas que funcionan los días feriados\n");
+        printf("3. Salir\n");
+        printf("Seleccione una opción: ");
+        scanf("%d", &opcion);
+
+        switch (opcion) {
+            case 1:
+                // Consultar paradas de una ruta de bus
+                printf("Ingrese la ruta del bus: ");
+                scanf("%s", ruta);
+
+                int indice = buscar_ruta(rutas, num_rutas, ruta);
+                if (indice != -1) {
+                    printf("Paradas de la ruta %s:\n", ruta);
+                    for (int i = 0; i < rutas[indice].num_paradas; i++) {
+                        printf("%d. %s\n", i + 1, rutas[indice].paradas[i]);
+                    }
+                } else {
+                    printf("La ruta ingresada no existe.\n");
+                }
+                break;
+            case 2:
+                // Mostrar rutas que funcionan los días festivos
+                printf("Rutas que funcionan los días feriados:\n");
+                for (int i = 0; i < num_rutas; i++) {
+                    if (rutas[i].festivos) {
+                        printf("- %s\n", rutas[i].nombre);
+                    }
+                }
+                break;
+            case 3:
+                printf("Saliendo del programa.\n");
+                break;
+            default:
+                printf("Opción inválida. Por favor, seleccione una opción válida.\n");
+        }
+    } while (opcion != 3);
+
+    return 0;
+}
