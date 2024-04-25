@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <math.h>
+
+#define PI 3.14159265358979323846
+
+int main() {
+    float radio, altura, area;
+
+    // INGRESAR DATOS
+    printf("Ingrese el radio de la base del cilindro: ");
+    scanf("%f", &radio);
+    
+    printf("Ingrese la altura del cilindro: ");
+    scanf("%f", &altura);
+
+    // CALCULAR EL ÁREA DEL CILINDRO
+    area = 2 * PI * radio * (radio + altura);
+
+    // RESULTADO
+    printf("El área del cilindro es: %.2f\n m2", area);
+
+    return 0;
+}
